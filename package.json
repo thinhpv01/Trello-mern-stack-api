@@ -1,0 +1,24 @@
+{
+  "name": "trello-mern-stack-api",
+  "version": "1.0.0",
+  "description": "Api for trello",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanthinh2001x/Trello-mern-stack-api.git"
+  },
+  "keywords": [],
+  "author": "Thinhpv01",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vanthinh2001x/Trello-mern-stack-api/issues"
+  },
+  "homepage": "https://github.com/vanthinh2001x/Trello-mern-stack-api#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
