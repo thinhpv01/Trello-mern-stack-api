@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { getDB } from "../../src/config/mongodb";
+import { ObjectId } from "mongodb";
 
 // Define Column collection
 const columnCollectionName = "columns";
@@ -39,17 +40,20 @@ const createNew = async (data) => {
       .insertOne(value);
     return result;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
 const update = async (id, data) => {
   try {
     const updateData = { ...data };
+    if (data.boardId) {
+      updateData.boardId = ObjectId(data.boardId);
+    }
     const result = await getDB()
       .collection(columnCollectionName)
       .findOneAndUpdate(
-        { _id: ObjectId(id) },
+        { _id: new ObjectId(id) },
         { $set: updateData },
         { returnDocument: "after" }
       );

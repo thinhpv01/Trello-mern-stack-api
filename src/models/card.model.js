@@ -38,7 +38,7 @@ const createNew = async (data) => {
       .insertOne(value);
     return result;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
