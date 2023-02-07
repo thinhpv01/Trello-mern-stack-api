@@ -1,8 +1,31 @@
+import { BoardModel } from "../models/board.model";
 import { ColumnModel } from "../models/column.model";
 const createNew = async (data) => {
   try {
-    const result = await ColumnModel.createNew(data);
-    return result;
+    // const newColumn = await ColumnModel.createNew(data);
+    // console.log({ newColumn });
+    // console.log(typeof newColumn.boardId);
+    // console.log(typeof newColumn.boardId.toString());
+    // const updatedBoard = await BoardModel.pushColumnOrder(
+    //   newColumn.boardId.toString(),
+    //   newColumn._id.toString()
+    // );
+    // console.log(updatedBoard);
+    // return newColumn;
+    // transaction mongodb
+    const createdColumn = await ColumnModel.createNew(data);
+    const getNewColumn = await ColumnModel.findOneById(
+      createdColumn.insertedId.toString()
+    );
+    // sửa lỗi undifined khi dùng hàm sort bên FE
+    getNewColumn.cards = [];
+    // update columnOrder Array in board collection
+    const updateBoard = await BoardModel.pushColumnOrder(
+      getNewColumn.boardId.toString(),
+      getNewColumn._id.toString()
+    );
+    console.log(updateBoard);
+    return getNewColumn;
   } catch (error) {
     throw new Error(error);
   }

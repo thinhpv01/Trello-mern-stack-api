@@ -1,8 +1,20 @@
 import { CardModel } from "../models/card.model";
+import { ColumnModel } from "../models/column.model";
+
 const createNew = async (data) => {
   try {
-    const result = await CardModel.createNew(data);
-    return result;
+    // transaction mongodb
+    const createdCard = await CardModel.createNew(data);
+    const getNewCard = await CardModel.findOneById(
+      createdCard.insertedId.toString()
+    );
+    // update columnOrder Array in board collection
+    const updateColumn = await ColumnModel.pushCardOrder(
+      getNewCard.columnId.toString(),
+      getNewCard._id.toString()
+    );
+    console.log(updateColumn);
+    return getNewCard;
   } catch (error) {
     throw new Error(error);
   }
