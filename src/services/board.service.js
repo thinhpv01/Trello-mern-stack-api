@@ -1,4 +1,5 @@
 import { BoardModel } from "../models/board.model";
+import { cloneDeep } from "lodash";
 const createNew = async (data) => {
   try {
     const result = await BoardModel.createNew(data);
@@ -14,14 +15,19 @@ const getFullBoard = async (id) => {
     if (!board || !board.columns) {
       throw new Error("Board not found");
     }
+
+    const transformBoard = cloneDeep(board);
     //add card to each column
-    board.columns.forEach((column) => {
+    transformBoard.columns = transformBoard.columns.filter(
+      (column) => !column._destroy
+    );
+    transformBoard.columns.forEach((column) => {
       column.cards = board.cards.filter(
         (c) => c.columnId.toString() === column._id.toString()
       );
     });
-    delete board.cards;
-    return board;
+    delete transformBoard.cards;
+    return transformBoard;
   } catch (error) {
     throw new Error(error);
   }

@@ -1,19 +1,10 @@
 import { BoardModel } from "../models/board.model";
+import { CardModel } from "../models/card.model";
 import { ColumnModel } from "../models/column.model";
 const createNew = async (data) => {
   try {
-    // const newColumn = await ColumnModel.createNew(data);
-    // console.log({ newColumn });
-    // console.log(typeof newColumn.boardId);
-    // console.log(typeof newColumn.boardId.toString());
-    // const updatedBoard = await BoardModel.pushColumnOrder(
-    //   newColumn.boardId.toString(),
-    //   newColumn._id.toString()
-    // );
-    // console.log(updatedBoard);
-    // return newColumn;
-    // transaction mongodb
     const createdColumn = await ColumnModel.createNew(data);
+    createdColumn.cards = [];
     const getNewColumn = await ColumnModel.findOneById(
       createdColumn.insertedId.toString()
     );
@@ -39,6 +30,23 @@ const createNew = async (data) => {
 //     const result = await ColumnModel.update(id, updateDate);
 //     return result;
 //   } catch (error) {
+//     throw new Error(error);
+//   }
+// };
+// const update = async (id, data) => {
+//   try {
+//     const updateData = {
+//       ...data,
+//       updatedAt: Date.now(),
+//     };
+//     if (updateData._id) delete updateData._id;
+//     const updatedColumn = await ColumnModel.update(id, updateData);
+//     if (updatedColumn._destroy) {
+//       CardModel.deleteMany(updatedColumn.cardOrder);
+//     }
+//     return updatedColumn;
+//   } catch (error) {
+//     console.log(error);
 //     throw new Error(error);
 //   }
 // };
