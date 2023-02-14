@@ -13,11 +13,25 @@ const createNew = async (data) => {
       getNewCard.columnId.toString(),
       getNewCard._id.toString()
     );
-    console.log(updateColumn);
     return getNewCard;
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export const CardService = { createNew };
+const update = async (id, data) => {
+  try {
+    const updateData = {
+      ...data,
+      updatedAt: Date.now(),
+    };
+    if (updateData._id) delete updateData._id;
+    const updatedCard = await CardModel.update(id, updateData);
+    return updatedCard;
+  } catch (error) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+export const CardService = { createNew, update };

@@ -8,4 +8,6 @@ router
   .get((req, res) => console.log("Get cards"))
   .post(CardValidation.createNew, CardController.createNew);
 
+router.route("/:id").put(CardValidation.update, CardController.update);
+
 export const cardRoutes = router;

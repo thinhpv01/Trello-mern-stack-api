@@ -51,14 +51,15 @@ const createNew = async (data) => {
 const update = async (id, data) => {
   try {
     const updateData = { ...data };
+    if (data.boardId) updateData.boardId = new ObjectId(data.boardId);
+    if (data.columnId) updateData.columnId = new ObjectId(data.columnId);
     const result = await getDB()
       .collection(cardCollectionName)
       .findOneAndUpdate(
-        { _id: ObjectId(id) },
+        { _id: new ObjectId(id) },
         { $set: updateData },
         { returnDocument: "after" }
       );
-    console.log(result);
     return result.value;
   } catch (error) {
     throw new Error(error);
@@ -71,7 +72,6 @@ const deleteMany = async (ids) => {
     const result = await getDB()
       .collection(cardCollectionName)
       .updateMany({ _id: { $in: transformIds } }, { $set: { _destroy: true } });
-    console.log(result);
     return result;
   } catch (error) {
     throw new Error(error);

@@ -22,7 +22,7 @@ const findOneById = async (id) => {
     const result = await getDB()
       .collection(boardCollectionName)
       .findOne({
-        _id: ObjectId(id),
+        _id: new ObjectId(id),
       });
     return result;
   } catch (error) {
@@ -41,6 +41,7 @@ const createNew = async (data) => {
     throw new Error(error);
   }
 };
+
 /**
  * @param {string} boardId
  * @param {string} columnId
@@ -89,7 +90,6 @@ const getFullBoard = async (boardId) => {
         },
       ])
       .toArray();
-    console.log(result);
     return result[0] || {};
   } catch (error) {
     throw new Error(error);
@@ -102,11 +102,10 @@ const update = async (id, data) => {
     const result = await getDB()
       .collection(boardCollectionName)
       .findOneAndUpdate(
-        { _id: ObjectId(id) },
+        { _id: new ObjectId(id) },
         { $set: updateData },
         { returnDocument: "after" }
       );
-    console.log(result);
     return result.value;
   } catch (error) {
     throw new Error(error);

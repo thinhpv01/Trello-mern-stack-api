@@ -55,7 +55,7 @@ const createNew = async (data) => {
 const pushCardOrder = async (columnId, cardId) => {
   try {
     const result = await getDB()
-      .collection(columnCollectionName)
+      .collection("columns")
       .findOneAndUpdate(
         { _id: new ObjectId(columnId) },
         { $push: { cardOrder: cardId } },
@@ -70,9 +70,7 @@ const pushCardOrder = async (columnId, cardId) => {
 const update = async (id, data) => {
   try {
     const updateData = { ...data };
-    if (data.boardId) {
-      updateData.boardId = new ObjectId(data.boardId);
-    }
+    if (data.boardId) updateData.boardId = new ObjectId(data.boardId);
     const result = await getDB()
       .collection(columnCollectionName)
       .findOneAndUpdate(
